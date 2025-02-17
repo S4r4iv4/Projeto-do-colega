@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Samurai's Skate Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="/js/main.js"></script>
+</head>
+
+<body>
+    <!-- Página Inicial -->
+    <header class="bg-dark text-white p-4 mb-5">
+        <nav class="navbar navbar-expand-lg navbar-dark container">
+            <img src="imagens/logo-branco.gif" width="100" height="100">
+            <a class="navbar-brand" href="home.html">Samurai's Skate Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="home.html">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="produtos.html">Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="carrinho.html">Carrinho</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="container mb-5">
+            <h1 class="text-center mb-4">Bem-vindo ao Samurai's Skate Shop!</h1>
+            <h2 class="text-center mb-4">Encontre as melhores roupas e acessórios para skatistas com estilo e qualidade.</h2>
+    </section>
+    
+
+    <!-- Slider de Destaques -->
+    <div id="Carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://maze.jetassets.com.br/banner/1730832625175-022232276057933942.jpeg" class="d-block" alt="foto 1" width="1440x" height="700px">
+            </div>
+            <div class="carousel-item">
+                <img src="imagens/2.jpg" class="d-block" alt="foto 2" width="1440x" height="700px">
+            </div>
+            <div class="carousel-item">
+                <img src="https://authenticfeet.vtexassets.com/assets/vtex.file-manager-graphql/images/738c1efe-76b1-474e-9da4-e325448d378c___4cbbba299caf00f86dc8475887cb77fe.png" class="d-block" alt="foto 3" width="1440x" height="700px">
+            </div>
+            <div class="carousel-item">
+                <img src="imagens/img1.png" class="d-block" alt="foto 4" width="1440x" height="700px">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#Carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
+    <section id="produtos" class="container mt-5">
+        <h2 class="text-center mb-4">Nossos Destaques</h2>
+        <div class="row" id="produtos-list">
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const produtosList = document.getElementById("produtos-list");
+                    const produtos = [
+                        { id: 7, nome: "Tenis Nike Sb Dunk Low Bege/vinho", preco: 999.90, descricao: "REFERENCIA: FZ1278-200", imagem: "https://maze.jetassets.com.br/produto/20241101094841_4732995268_D.jpg" },
+                        { id: 3, nome: "Shape Primitive X Tupac Moto 8.25 Preto/prateado", preco: 549.90, descricao: "Referência: PS22W0023", imagem: "https://maze.jetassets.com.br/produto/20231201112359_1235998765_D.webp" },
+                        { id: 5, nome: "Jaqueta Ripndip Illusion Jerm Coaches Preto", preco: 559.93, descricao: "Referência:RND10362", imagem: "https://maze.jetassets.com.br/produto/20240405162835_3637996363_D.webp" },
+                    ];
+
+                    produtos.forEach((produto) => {
+                        const produtoCard = document.createElement("div");
+                        produtoCard.classList.add("col-md-4", "mb-4");
+                        produtoCard.innerHTML = `
+            <div class="card h-100">
+                <img src="${produto.imagem}" class="card-img-top" alt="${produto.nome}">
+                <div class="card-body">
+                    <h5 class="card-title">${produto.nome}</h5>
+                    <p class="card-text">${produto.descricao}</p>
+                    <p class="card-text">R$ ${produto.preco.toFixed(2)}</p>
+                    <button class="btn btn-primary" onclick="adicionarAoCarrinho(${produto.id})">Adicionar ao Carrinho</button>
+                </div>
+            </div>`;
+                        produtosList.appendChild(produtoCard);
+                    });
+
+                    window.adicionarAoCarrinho = (id) => {
+                        const produto = produtos.find((p) => p.id === id);
+                        if (!produto) return;
+
+                        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+                        const itemExistente = carrinho.find((item) => item.id === id);
+
+                        if (itemExistente) {
+                            itemExistente.quantidade++;
+                        } else {
+                            carrinho.push({ ...produto, quantidade: 1 });
+                        }
+
+                        localStorage.setItem("carrinho", JSON.stringify(carrinho));
+                        alert(`${produto.nome} foi adicionado ao carrinho!`);
+                    };
+                });
+            </script>
+        </div>
+    </section>
+    
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Skate Shop. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
